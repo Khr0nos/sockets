@@ -15,9 +15,23 @@
 // the connection
 //
 
-int
-createServerSocket (int port)
-{
+int createServerSocket (int port){
+
+  int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
+
+  if (socket_fd > 0) {
+    struct sockaddr_in server_addr;
+
+    memset((char *) &server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(port);
+    server_addr.sin_addr.s_addr = INADDR_ANY;
+
+    int ret = bind(socket_fd, (struct sockaddr *) &server_addr, sizeof(server_addr));
+    if (ret < 0) return ret;
+  }
+
+  return socket_fd;
 }
 
 
@@ -26,10 +40,13 @@ createServerSocket (int port)
 // with the address of the socket for the client which is requesting the
 // connection, and the addrSize parameter with the size of that address.
 
-int
-acceptNewConnections (int socket_fd)
-{
+int acceptNewConnections (int socket_fd) {
+  int ret = listen(socket_fd, 50);
+  if (ret < 0) return ret;
 
+  struct sockaddr_in client;
+  int length = sizeof(client);
+  return accept(socket_fd, (struct sockaddr *) &client, &length);
 }
 
 // Returns the socket virtual device that the client should use to access 
@@ -40,9 +57,7 @@ acceptNewConnections (int socket_fd)
 // server socket to request the connection and the size of that address.
 //
 
-int
-clientConnection (char *host_name, int port)
-{
+int clientConnection (char *host_name, int port) {
 
   struct sockaddr_in serv_addr;
   struct hostent * hent;

@@ -49,7 +49,7 @@ main (int argc, char *argv[])
     }
 
   port = atoi(argv[1]);
-  socketFD = createServerSocket (port);
+  socketFD = createServerSocket(port);
   if (socketFD < 0)
     {
       perror ("Error creating socket\n");
