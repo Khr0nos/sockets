@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 
-doService(int fd) {
+void doService(int fd) {
 int i = 0;
 char buff[80];
 char buff2[80];
@@ -29,6 +29,17 @@ int socket_fd = (int) fd;
 	sprintf(buff2, "Server [%d] ends service\n", getpid());
 	write(1, buff2, strlen(buff2));
 
+}
+
+void doServiceFork(int fd) {
+	int pid = fork();
+	switch (pid){
+		case -1: perror("Error creating server process");
+		 	exit(1);
+		case 0:
+		 	doService(fd);
+			exit(0);
+	}
 }
 
 
@@ -65,7 +76,8 @@ main (int argc, char *argv[])
 		  exit (1);
 	  }
 
-	  doService(connectionFD);
+	  //doService(connectionFD);
+	  doServiceFork(connectionFD);
   }
 
 }
