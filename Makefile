@@ -22,4 +22,4 @@ socketMng.o: socketMng.c
 	gcc -c -g socketMng.c
 
 clean: 
-	rm -f *.o serverSequential serverBounded serverUnbounded serverThreaded clientSocket launchClient
+	rm -f *.o serverSequential serverBounded serverUnbounded serverThreaded clientSocket launchClient client_*

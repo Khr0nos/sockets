@@ -8,7 +8,7 @@ int i = 0;
 char buff[80];
 char buff2[80];
 int ret;
-int socket_fd = (int) fd;
+int socket_fd = (int)fd;
 
     ret = read(socket_fd, buff, sizeof(buff));
     while(ret > 0) {
@@ -34,7 +34,7 @@ int socket_fd = (int) fd;
 void doServiceThreaded(int fd) {
     pthread_t thread;
     int ret = pthread_create(&thread, NULL, doThread, (void *)fd);
-    if (ret) {
+    if (ret < 0) {
       perror("Error creating thread");
       exit(-1);
     }
@@ -78,4 +78,5 @@ main (int argc, char *argv[])
       doServiceThreaded(connectionFD);
   }
   pthread_exit(0);
+  return 0;
 }
