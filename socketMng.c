@@ -29,6 +29,9 @@ int createServerSocket (int port){
 
     int ret = bind(socket_fd, (struct sockaddr *) &server_addr, sizeof(server_addr));
     if (ret < 0) return ret;
+
+    ret = listen(socket_fd, 100);
+    if (ret < 0) return ret;
   }
 
   return socket_fd;
@@ -41,9 +44,6 @@ int createServerSocket (int port){
 // connection, and the addrSize parameter with the size of that address.
 
 int acceptNewConnections (int socket_fd) {
-  int ret = listen(socket_fd, 100);
-  if (ret < 0) return ret;
-
   struct sockaddr_in client;
   int length = sizeof(client);
   return accept(socket_fd, (struct sockaddr *) &client, &length);

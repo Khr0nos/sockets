@@ -2,6 +2,9 @@
 #include <string.h>
 #include <stdio.h>
 #include <signal.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 int current_alive = 0;
 int limit = 0;
@@ -92,6 +95,13 @@ main (int argc, char *argv[])
 
       doServiceBounded(connectionFD);
   }
-  if (argc == 3) while (waitpid(-1, NULL, 0) > 0);
+  // int file = open("test", O_CREAT|O_WRONLY, 00777);
+  // if (file < 0) perror("Error opening");
+  // int i = 0;
+  while (waitpid(-1, NULL, 0) > 0) { }
+  //   i++;
+  //   sprintf(buffer, "%d\n",i);
+  //   write(file, buffer, strlen(buffer));
+  // }
   printf("Maximum children served: %d \n", max);
 }
